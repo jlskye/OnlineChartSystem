@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>echarts</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/chart.css" rel="stylesheet">
+    <script src="js/echarts.min.js"></script>
+    <script src="js/jquery-2.1.4.min.js"></script>
+
+</head>
+<body>
+<script src="handle.js"></script>
+<div id="banner">
+    <span class="brand fa fa-asterisk"></span>Chart系统
+</div>
+<div id="box">
+    <div id="left-section">
+        <ul class="menu">
+            <li  >
+                <div class="upload pull-left"><span class="fa fa-folder-open"></span></div>
+                <button type="" class="btn btn-success btn-lg pull-left" onclick="fileToUpload.click()">上传</button>
+                <input type="file" id="fileToUpload" style="display:none" name="fileToUpload" value="上传"/>
+            </li>
+            <li  >
+                <div class="upload pull-left"><span class="fa fa-gavel"></span></div>
+                <button id="handlebtn" type="" class="btn btn-success btn-lg pull-left">处理</button>
+            </li>
+
+            </ul>
+
+    </div>
+
+    <div id="right-section">
+        <div id="origin" class="shape"></div>
+        <div id="handled" class="shape"></div>
+        <div id="dynamic" class="shape"></div>
+    </div>
+</div>
+<script>
+
+    //为读入文件button设置监听事件函数
+    document.querySelector('input[name=fileToUpload]').onchange = function(e){
+        readFile(this.files[0]);
+    }
+    // 初始化空的坐标轴状态
+    var myChart = echarts.init(document.getElementById('origin'));
+    myChart.setOption(getOrigin());
+    myChart.setOption(setGradient());
+
+
+    //文件数据图像的初始化
+    var myChart2 = echarts.init(document.getElementById('handled'));
+    myChart2.setOption(getOrigin());
+
+    //隐藏操作通道
+    document.getElementById('handled').style.visibility='hidden';
+
+    //添加渐变区域背景
+    function setGradient() {
+        let option;
+        return option={
+            series:[{
+                areaStyle: {
+                    normal: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: 'rgba(13, 183, 8, 0.19)'
+                        }, {
+                            offset: 1,
+                            color: 'rgb(255,255,255)'
+                        }])
+                    }
+                },
+            }]
+        }
+    }
+    var myChart3 = echarts.init(document.getElementById('dynamic'));
+    myChart3.setOption(setGradient());
+
+
+</script>
+</body>
+</html>
